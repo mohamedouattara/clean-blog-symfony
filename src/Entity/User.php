@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,18 +30,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     /**
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="array")
      */
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var                       string The hashed password
      * @ORM\Column(type="string")
      */
     private string $password;
 
 
     private ?string $plainPassword = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private string $nickname;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $registeredAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $suspendedAt = null;
+
+    public function __construct()
+    {
+        $this->registeredAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -142,5 +163,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->plainPassword = $plainPassword;
         return $this;
+    }
+
+    public function getRegisteredAt(): ?DateTimeImmutable
+    {
+        return $this->registeredAt;
+    }
+
+    public function setRegisteredAt(DateTimeImmutable $registeredAt): self
+    {
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    public function getSuspendedAt(): ?DateTimeImmutable
+    {
+        return $this->suspendedAt;
+    }
+
+    public function setSuspendedAt(?DateTimeImmutable $suspendedAt): self
+    {
+        $this->suspendedAt = $suspendedAt;
+
+        return $this;
+    }
+
+    public function getNickname(): string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspendedAt !== null;
     }
 }

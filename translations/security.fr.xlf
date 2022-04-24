@@ -81,6 +81,12 @@
         <source>Too many failed login attempts, please try again in %minutes% minutes.</source>
         <target>Plusieurs tentatives de connexion ont échoué, veuillez réessayer dans %minutes% minutes.</target>
       </trans-unit>
+      <trans-unit id="security.account_suspended" resname="Your account has been suspended. Please contact the administrator.">
+          <source>Your account has been suspended. Please contact the administrator.</source>
+          <target>Votre compte a été suspendu. Merci de contacter l'administrateur.</target>
+    </trans-unit>
+
+
     </body>
   </file>
 </xliff>

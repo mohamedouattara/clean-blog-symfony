@@ -13,7 +13,7 @@ tests:
 
 analyze:
 	composer valid
-	php bin/console doctrine:schema:valid
+	php bin/console doctrine:schema:valid --skip-sync
 	php vendor/bin/phpcs
 
 prepare-dev:
