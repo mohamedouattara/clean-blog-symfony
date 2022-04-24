@@ -9,12 +9,12 @@ translations: bin
 
 .PHONY: tests
 tests:
-	php vendor/bin/simple-phpunit
+	php vendor/bin/simple-phpunit tests/Functional/
 
 analyze:
 	composer valid
 	php bin/console doctrine:schema:valid --skip-sync
-	php vendor/bin/phpcs
+	#php vendor/bin/phpcs src/
 
 prepare-dev:
 	composer install --no-progress --prefer-dist

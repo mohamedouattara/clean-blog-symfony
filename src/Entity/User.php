@@ -7,12 +7,16 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\EntityListeners({"App\EntityListener\UserListener"})
+ * @UniqueEntity("email")
+ * @UniqueEntity("nickname")
  */
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -26,6 +30,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private string $email;
 
@@ -41,10 +47,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
 
+    /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=8, max=16)
+     */
     private ?string $plainPassword = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank
      */
     private string $nickname;
 
